@@ -1,6 +1,6 @@
-var ERC721MintableComplete = artifacts.require('ERC721MintableComplete');
+var ERC721MintableComplete = artifacts.require('ScheucluHouseToken');
 
-contract('TestERC721Mintable', accounts => {
+contract('TestScheucluHouseToken', accounts => {
 
     const account_one = accounts[0];
     const account_two = accounts[1];
