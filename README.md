@@ -1,14 +1,23 @@
-# Udacity Blockchain Capstone
+# Decentralized housing project
 
-The capstone will build upon the knowledge you have gained in the course in order to build a decentralized housing product. 
+This is the capstone project for Udacitys Blockchain developer program.
 
-# Project Resources
+## Contracts
 
-* [Remix - Solidity IDE](https://remix.ethereum.org/)
-* [Visual Studio Code](https://code.visualstudio.com/)
-* [Truffle Framework](https://truffleframework.com/)
-* [Ganache - One Click Blockchain](https://truffleframework.com/ganache)
-* [Open Zeppelin ](https://openzeppelin.org/)
-* [Interactive zero knowledge 3-colorability demonstration](http://web.mit.edu/~ezyang/Public/graph/svg.html)
-* [Docker](https://docs.docker.com/install/)
-* [ZoKrates](https://github.com/Zokrates/ZoKrates)
+Here's the contract hierarchy of the project
+
+```mermaid
+classDiagram
+ERC165 *-- ERC721
+Ownable *-- Pausable
+Pausable *-- ERC721
+ERC165 *-- ERC721Enumerable
+ERC721 *-- ERC721Enumerable
+ERC721Enumerable *-- ERC721Metadata
+ERC721Metadata *-- ScheucluHouseToken
+SquareVerifier *-- SolnSquareVerifier
+ScheucluHouseToken *-- SolnSquareVerifier
+class SquareVerifier{
+    created via Zokrates
+}
+```
