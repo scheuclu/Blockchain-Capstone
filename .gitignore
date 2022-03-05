@@ -1,2 +1,8 @@
 
 node_modules/
+eth-contracts/build/
+zokrates/code/square/*.json
+zokrates/code/square/*.key
+zokrates/code/square/*.sol
+zokrates/code/square/out
+zokrates/code/square/witness
