@@ -5,13 +5,16 @@
 var SolnSquareVerifier = artifacts.require('SolnSquareVerifier');
 var verifierProof = require('../../zokrates/code/square/proof.json');
 
+const truffleAssert = require('truffle-assertions');
+
 const {
     BN,
     expectEvent,
     expectRevert,
 } = require('@openzeppelin/test-helpers');
+const { assertion } = require('@openzeppelin/test-helpers/src/expectRevert');
 
-contract('Test Verifier', accounts => {
+contract('Soln Square Verifier', accounts => {
 
     const account_one = accounts[0];
     const account_two = accounts[1];
@@ -34,12 +37,20 @@ contract('Test Verifier', accounts => {
 
         it('Make sure the same solution cannot be added twice', async function () {
 
-            let result = await this.contract.addSolution(
-                { a: verifierProof.proof.a, b: verifierProof.proof.b, c: verifierProof.proof.c },
-                verifierProof.inputs,
-                { from: account_one }
-            );
-            await expectEvent(result, "SolutionAdded");
+            let sucess = true;
+            try {
+                let result = await this.contract.addSolution(
+                    { a: verifierProof.proof.a, b: verifierProof.proof.b, c: verifierProof.proof.c },
+                    verifierProof.inputs,
+                    { from: account_one }
+                )
+                console.log(result);
+            } catch (err) {
+                sucess = false;
+            }
+
+            assert.equal(sucess, false, "Should fail");
+
         })
 
 
