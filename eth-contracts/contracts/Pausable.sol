@@ -3,7 +3,7 @@ pragma solidity 0.8.12;
 
 import "./Ownable.sol";
 
-//  TODO's: Create a Pausable contract that inherits from the Ownable contract
+//  [DONE]'s: Create a Pausable contract that inherits from the Ownable contract
 //  1) create a private '_paused' variable of type bool [DONE]
 //  2) create a public setter using the inherited onlyOwner modifier  [DONE]
 //  3) create an internal constructor that sets the _paused variable to false [DONE]

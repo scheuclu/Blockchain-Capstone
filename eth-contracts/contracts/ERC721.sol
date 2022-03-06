@@ -57,36 +57,38 @@ contract ERC721 is Pausable, ERC165 {
     }
 
     function balanceOf(address owner) public view returns (uint256) {
-        // TODO return the token balance of given address [DONE] //TODO(lukas)
+        // [DONE] return the token balance of given address [DONE]
         // TIP: remember the functions to use for Counters. you can refresh yourself with the link above
         return _ownedTokensCount[owner].current();
     }
 
     function ownerOf(uint256 tokenId) public view returns (address) {
-        // TODO return the owner of the given tokenId [DONE]
+        // [DONE] return the owner of the given tokenId [DONE]
         return _tokenOwner[tokenId];
     }
 
     //    @dev Approves another address to transfer the given token ID
     function approve(address to, uint256 tokenId) public {
-        // TODO require the given address to not be the owner of the tokenId [DONE]
-        // TODO require the msg sender to be the owner of the contract or isApprovedForAll() to be true [DONE]
-        // TODO add 'to' address to token approvals [DONE]
-        // TODO emit Approval Event [DONE]
+        // [DONE] require the given address to not be the owner of the tokenId [DONE]
+        // [DONE] require the msg sender to be the owner of the contract or isApprovedForAll() to be true [DONE]
+        // [DONE] add 'to' address to token approvals [DONE]
+        // [DONE] emit Approval Event [DONE]
         address tokenowner = ownerOf(tokenId);
         require(to != ownerOf(tokenId), "Already token owner");
         require(
             msg.sender == tokenowner ||
                 isApprovedForAll(tokenowner, msg.sender),
             "Sender not approved to execute approve()."
-        ); //TODO(lukas)
-        _operatorApprovals[tokenowner];
+        );
+        _tokenApprovals[tokenId] = to;
 
         emit Approval(tokenowner, to, tokenId);
     }
 
     function getApproved(uint256 tokenId) public view returns (address) {
-        // TODO return token approval if it exists //TODO(lukas)
+        // [DONE] return token approval if it exists
+        require(_exists(tokenId), "Token doesn't exist");
+        return _tokenApprovals[tokenId];
     }
 
     /**
@@ -176,16 +178,16 @@ contract ERC721 is Pausable, ERC165 {
     function _mint(address to, uint256 tokenId) internal virtual {
         //TODO(lukas) this should not be virtual ----------------------------
 
-        // TODO revert if given tokenId already exists or given address is invalid [DONE]
+        // [DONE] revert if given tokenId already exists or given address is invalid [DONE]
         if (Address.isContract(to) || _exists(tokenId)) {
             revert("Invalid arguments");
         }
 
-        // TODO mint tokenId to given address & increase token count of owner [DONE]
-        _tokenOwner[tokenId] = to; //TODO(lukas) not sure if correctly implemented
+        // [DONE] mint tokenId to given address & increase token count of owner [DONE]
+        _tokenOwner[tokenId] = to;
         _ownedTokensCount[to].increment();
 
-        // TODO emit Transfer event [DONE]
+        // [DONE] emit Transfer event [DONE]
         emit Transfer(msg.sender, to, tokenId);
     }
 
@@ -196,24 +198,23 @@ contract ERC721 is Pausable, ERC165 {
         address to,
         uint256 tokenId
     ) internal {
-        // TODO: require from address is the owner of the given token
+        // [DONE]: require from address is the owner of the given token
         require(from == ownerOf(tokenId), "from address does not own token");
 
-        // TODO: require token is being transfered to valid address
-        require(
-            !Address.isContract(to),
-            "Cannot transfer token to a contract."
-        );
+        // [DONE]: require token is being transfered to valid address
+        require(!Address.isContract(to),
+            "Cannot transfer token to a contract.");
+        require(to!=address(0x0), "Cannot transfer to address 0x0");
 
-        // TODO: clear approval
-        getApproved(tokenId); //TODO(lukas) unsure about this
+        // [DONE]: clear approval
+        _clearApproval(tokenId);
 
-        // TODO: update token counts & transfer ownership of the token ID
+        // [DONE]: update token counts & transfer ownership of the token ID
         _ownedTokensCount[from].decrement();
         _ownedTokensCount[to].increment();
         _tokenOwner[tokenId] = to;
 
-        // TODO: emit correct event
+        // [DONE]: emit correct event
         emit Transfer(from, to, tokenId);
     }
 
